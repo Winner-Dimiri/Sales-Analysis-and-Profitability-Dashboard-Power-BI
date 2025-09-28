@@ -1,0 +1,139 @@
+--Deleting three rows from 2024
+DELETE FROM sales_data WHERE YEAR(Sale_Date) = '2024'
+
+--Renaming the Unit_Cost and Unit_Price columns to specify currency context
+EXEC sp_rename 'sales_data.Unit_Cost', 'Unit_Cost_NGN', 'COLUMN'
+EXEC sp_rename 'sales_data.Unit_Price', 'Unit_Price_NGN', 'COLUMN'
+
+--Creating additional columns to aid analysis
+---Creating the Revenue Column
+ALTER TABLE sales_data
+ADD Revenue_NGN FLOAT
+UPDATE sales_data
+SET Revenue_NGN = ROUND(Unit_Price_NGN * Quantity_Sold * (1-Discount),2)
+
+---Creating the Cost Column
+ALTER TABLE sales_data
+ADD Cost_NGN FLOAT
+UPDATE sales_data
+SET Cost_NGN = ROUND((Unit_Cost_NGN * Quantity_Sold),2)
+
+---Creating the Profit Column
+ALTER TABLE sales_data
+ADD Profit_NGN FLOAT
+UPDATE sales_data
+SET Profit_NGN = ROUND(Revenue_NGN - (Unit_Cost_NGN * Quantity_Sold),2)
+
+---Creating the Order Month Column
+ALTER TABLE sales_data
+ADD Sales_Month INT
+UPDATE sales_data
+SET Sales_Month = Month(Sale_Date)
+
+--Univariate Analysis
+---Total Quantity
+SELECT SUM(Quantity_Sold) AS Total_Quantity_Sold FROM sales_data
+
+---Total Revenue
+SELECT ROUND(SUM(Revenue_NGN),2) AS Total_Revenue FROM sales_data
+
+---Total Cost
+SELECT ROUND(SUM(Cost_NGN),2) AS Total_Cost FROM sales_data
+
+---Total Profit
+SELECT ROUND(SUM(Profit_NGN),2) AS Total_Profit FROM sales_data
+
+---Calculating AOV 
+SELECT ROUND(SUM(Revenue_NGN) / COUNT(Product_ID),2) AS AOV 
+FROM sales_data
+
+---Calculating Profit Margin (%)
+SELECT ROUND((SUM(Profit_NGN) * 100 / SUM(Revenue_NGN)),2) AS Profit_Margin
+FROM sales_data
+
+---Calculating the Average Margin % (Across Products)
+SELECT
+	ROUND(AVG(ProductMargin),2) AS Avg_Margin_Percent
+	FROM (
+		SELECT 
+			Product_ID,
+			SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS ProductMargin
+		FROM sales_data
+		GROUP BY Product_ID
+	) AS MarginQuery
+
+
+--Time Based Analysis
+---Calculating monthly revenue
+SELECT Sales_Month, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit
+FROM sales_data
+GROUP BY Sales_Month
+Order BY Sales_Month DESC
+
+select count(distinct product_ID)from sales_data
+
+
+select * from sales_data
+Select count(Product_ID) Product_ID, Sales_Month from sales_data group by Sales_Month order by Product_ID Desc
+
+--Product Analysis
+--Calculating Quantity_Sold by Product
+Select TOP 5 Product_ID, COUNT(Quantity_Sold) AS Quantity_Sold, SUM(Revenue_NGN) AS Revenue_NGN, 
+SUM(Profit_NGN) AS Profit_NGN,
+SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+FROM sales_data
+Group by Product_ID
+Order By Quantity_Sold Desc
+
+--Calculating Quantity_Sold by Product Category
+Select Product_Category, COUNT(Quantity_Sold) AS Quantity_Sold, SUM(Revenue_NGN) AS Revenue_NGN, 
+	SUM(Profit_NGN) AS Profit_NGN,
+	AVG(Unit_Price_NGN) AS Average_Price, AVG(Discount) AS Average_Discount,
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+FROM sales_data
+Group by Product_Category
+Order By Quantity_Sold Desc
+
+--Regional Analysis
+SELECT Region, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+FROM sales_data
+GROUP BY Region
+Order BY Region DESC
+
+--Channel Analysis
+SELECT Sales_Channel, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+FROM sales_data
+GROUP BY Sales_Channel
+Order BY Sales_Channel DESC
+
+--Sales Rep Analysis
+SELECT Sales_Rep, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+FROM sales_data
+GROUP BY Sales_Rep
+Order BY Sales_Rep DESC
+
+--Getting the Product Categories and the Product IDs under them
+Select Product_Category, DISTINCT Product_ID
+FROM sales_data
+Group by Product_Category
+Order By Quantity_Sold Desc
+
+Select * from [dbo].[sales_data]
+select 
+count(*) AS total_rows,
+count(Distinct Product_ID) AS distinct_Products,
+Sum(Case when Sales_Amount_NGN is null then 1 else 0 end) AS salesamount_null,
+Min(sale_Date) AS min_date,
+Max(sale_Date) AS max_date 
+From sales_data
