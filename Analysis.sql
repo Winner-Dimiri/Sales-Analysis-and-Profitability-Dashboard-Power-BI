@@ -83,7 +83,6 @@ SELECT
 	) AS MarginQuery
 
 --Time Based Analysis
----Calculating monthly revenue
 SELECT 
 	Sales_Month, 
 	COUNT(Quantity_Sold) AS Quantity_Sold, 
@@ -97,14 +96,7 @@ FROM sales_data
 GROUP BY Sales_Month
 Order BY Sales_Month DESC
 
-select count(distinct product_ID)from sales_data
-
-
-select * from sales_data
-Select count(Product_ID) Product_ID, Sales_Month from sales_data group by Sales_Month order by Product_ID Desc
-
 --Product Analysis
---Calculating Quantity_Sold by Product
 Select 
 	TOP 5 Product_ID, 
 	COUNT(Quantity_Sold) AS Quantity_Sold, 
@@ -118,7 +110,7 @@ FROM sales_data
 Group by Product_ID
 Order By Quantity_Sold Desc
 
---Calculating Quantity_Sold by Product Category
+--Product Category Analysis
 Select Product_Category, 
 	COUNT(Quantity_Sold) AS Quantity_Sold, 
 	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
