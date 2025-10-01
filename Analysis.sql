@@ -54,7 +54,7 @@ SELECT SUM(Quantity_Sold) AS Total_Quantity_Sold FROM sales_data
 
 ---Total Revenue with and without Discount
 SELECT ROUND(SUM(Revenue_NGN),2) AS Total_Revenue FROM sales_data
-SELECT ROUND(SUM(RevenuWDe_NGN),2) AS Total_Revenue FROM sales_data
+SELECT ROUND(SUM(RevenuWD_NGN),2) AS Total_Revenue FROM sales_data
 
 ---Total Cost
 SELECT ROUND(SUM(Cost_NGN),2) AS Total_Cost FROM sales_data
@@ -82,12 +82,17 @@ SELECT
 		GROUP BY Product_ID
 	) AS MarginQuery
 
-
 --Time Based Analysis
 ---Calculating monthly revenue
-SELECT Sales_Month, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+SELECT 
+	Sales_Month, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
 	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
-	ROUND(SUM(Profit_NGN),2) AS Profit
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 GROUP BY Sales_Month
 Order BY Sales_Month DESC
@@ -100,60 +105,71 @@ Select count(Product_ID) Product_ID, Sales_Month from sales_data group by Sales_
 
 --Product Analysis
 --Calculating Quantity_Sold by Product
-Select TOP 5 Product_ID, COUNT(Quantity_Sold) AS Quantity_Sold, SUM(Revenue_NGN) AS Revenue_NGN, 
-SUM(Profit_NGN) AS Profit_NGN,
-SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
+Select 
+	TOP 5 Product_ID, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
+	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 Group by Product_ID
 Order By Quantity_Sold Desc
 
 --Calculating Quantity_Sold by Product Category
-Select Product_Category, COUNT(Quantity_Sold) AS Quantity_Sold, SUM(Revenue_NGN) AS Revenue_NGN, 
-	SUM(Profit_NGN) AS Profit_NGN,
-	AVG(Unit_Price_NGN) AS Average_Price, AVG(Discount) AS Average_Discount,
+Select Product_Category, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
+	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
+	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
 	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 Group by Product_Category
 Order By Quantity_Sold Desc
 
 --Regional Analysis
-SELECT Region, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+SELECT 
+	Region, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
 	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
 	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
 	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 GROUP BY Region
 Order BY Region DESC
 
 --Channel Analysis
-SELECT Sales_Channel, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+SELECT 
+	Sales_Channel, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
 	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
 	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
 	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 GROUP BY Sales_Channel
 Order BY Sales_Channel DESC
 
 --Sales Rep Analysis
-SELECT Sales_Rep, COUNT(Quantity_Sold) AS Quantity_Sold, ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+SELECT 
+	Sales_Rep, 
+	COUNT(Quantity_Sold) AS Quantity_Sold, 
+	ROUND(SUM(Revenue_NGN),2) AS Total_Revenue, 
+	ROUND(SUM(RevenueWD_NGN),2) AS Total_Revenue, 
 	ROUND(AVG(Revenue_NGN),2) AS Average_Revenue_NGN,
 	ROUND(SUM(Profit_NGN),2) AS Profit,
+	ROUND(SUM(ProfitWD_NGN),2) AS ProfitWD_NGN
 	SUM(Profit_NGN) * 100 / SUM(Revenue_NGN) AS MarginPercent
 FROM sales_data
 GROUP BY Sales_Rep
 Order BY Sales_Rep DESC
 
---Getting the Product Categories and the Product IDs under them
-Select Product_Category, DISTINCT Product_ID
-FROM sales_data
-Group by Product_Category
-Order By Quantity_Sold Desc
-
-Select * from [dbo].[sales_data]
-select 
-count(*) AS total_rows,
-count(Distinct Product_ID) AS distinct_Products,
-Sum(Case when Sales_Amount_NGN is null then 1 else 0 end) AS salesamount_null,
-Min(sale_Date) AS min_date,
-Max(sale_Date) AS max_date 
-From sales_data
