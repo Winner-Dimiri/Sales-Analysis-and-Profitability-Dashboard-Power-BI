@@ -9,24 +9,42 @@ EXEC sp_rename 'sales_data.Unit_Price', 'Unit_Price_NGN', 'COLUMN'
 ---Creating the Revenue Column
 ALTER TABLE sales_data
 ADD Revenue_NGN FLOAT
+
 UPDATE sales_data
 SET Revenue_NGN = ROUND(Unit_Price_NGN * Quantity_Sold * (1-Discount),2)
+
+--Adding the Revenue Without Discount Column
+ALTER TABLE sales_data
+ADD RevenueWD_NGN FLOAT
+
+UPDATE sales_data
+SET RevenueWD_NGN = ROUND(Unit_Price_NGN * Quantity_Sold,2)
 
 ---Creating the Cost Column
 ALTER TABLE sales_data
 ADD Cost_NGN FLOAT
+
 UPDATE sales_data
 SET Cost_NGN = ROUND((Unit_Cost_NGN * Quantity_Sold),2)
 
 ---Creating the Profit Column
 ALTER TABLE sales_data
 ADD Profit_NGN FLOAT
+
 UPDATE sales_data
 SET Profit_NGN = ROUND(Revenue_NGN - (Unit_Cost_NGN * Quantity_Sold),2)
+
+--Adding the Profit Without Discount Column
+ALTER TABLE sales_data
+ADD ProfitWD_NGN FLOAT
+
+UPDATE sales_data
+SET ProfitWD_NGN = ROUND(RevenueWD_NGN - (Unit_Cost_NGN * Quantity_Sold),2)
 
 ---Creating the Order Month Column
 ALTER TABLE sales_data
 ADD Sales_Month INT
+
 UPDATE sales_data
 SET Sales_Month = Month(Sale_Date)
 
@@ -34,14 +52,16 @@ SET Sales_Month = Month(Sale_Date)
 ---Total Quantity
 SELECT SUM(Quantity_Sold) AS Total_Quantity_Sold FROM sales_data
 
----Total Revenue
+---Total Revenue with and without Discount
 SELECT ROUND(SUM(Revenue_NGN),2) AS Total_Revenue FROM sales_data
+SELECT ROUND(SUM(RevenuWDe_NGN),2) AS Total_Revenue FROM sales_data
 
 ---Total Cost
 SELECT ROUND(SUM(Cost_NGN),2) AS Total_Cost FROM sales_data
 
----Total Profit
+---Total Profit with and without Discount
 SELECT ROUND(SUM(Profit_NGN),2) AS Total_Profit FROM sales_data
+SELECT ROUND(SUM(ProfitWD_NGN),2) AS Total_Profit FROM sales_data
 
 ---Calculating AOV 
 SELECT ROUND(SUM(Revenue_NGN) / COUNT(Product_ID),2) AS AOV 
