@@ -13,7 +13,7 @@ ADD Revenue_NGN FLOAT
 UPDATE sales_data
 SET Revenue_NGN = ROUND(Unit_Price_NGN * Quantity_Sold * (1-Discount),2)
 
---Adding the Revenue Without Discount Column
+--Creating the Revenue Without Discount Column
 ALTER TABLE sales_data
 ADD RevenueWD_NGN FLOAT
 
