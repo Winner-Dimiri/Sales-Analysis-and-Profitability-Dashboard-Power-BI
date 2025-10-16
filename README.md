@@ -39,7 +39,14 @@ This is the dashboard showing the trends
 
 
 ## Insights
-- Giving discounts reduced revenue by N10.47 and turned what could have been a profit (6.47M
+- Giving discounts reduced revenue by ₦10.6M and turned what could have been a profit (₦6.47M) into a loss of ₦4.16M.
+- The business is currently running at a –6.98% profit margin, showing that sales growth is not translating into profitability.
+- The average order value (AOV) is ₦59.8K, meaning customers are spending well per order, but margins are eroding due to pricing.
+- Clothing (₦16.4M) generated the highest revenue, followed by Furniture, Electronics, and Food.
+- Among sales reps, David (₦13.7M) and Eva (₦12.8M) delivered the highest sales.
+- Revenue across regions is relatively balanced, with the North (₦15.6M) leading slightly.
+- Sales peaked in January (₦6.37M) and August (₦5.72M), but dropped sharply in September (₦3.84M), suggesting seasonal or demand issues.
+- The top 5 products alone contributed ₦6.6M+ in revenue, showing that a small set of products drive a big share of sales.
 
 ## Recommendations
 - Review the discount strategy - instead of broad discounts, use targeted offers to boost sales without wiping out profit.
