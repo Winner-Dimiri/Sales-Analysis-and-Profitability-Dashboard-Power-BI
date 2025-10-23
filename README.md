@@ -4,7 +4,7 @@
 ---
 
 ## Project Overview
-- **Project Title:** Sales Analysis and Profitability Dashboard - Power BI
+- **Project Title:** Sales Analysis and Profitability Dashboard
 - **Project Description:** I analyzed a year of retail transactions to answer the business questions: where is revenue coming from, why are margins negative, and what practical steps will improve profitability? Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
 - **Business Objectives**
   1. Identify top-performing products, regions, and sales representatives.
@@ -13,7 +13,7 @@
   4. Provide real-time, interactive reporting for better decision-making.
 
 ## Tools Used
-- **Excel:** for data cleaning, formatting, and preliminary analysis.
+- **Excel:** for data cleaning and formatting.
 - **SQL:** Data querying and exploration.
 - **Power BI:** DAX measures, interactive dashboards and data visualization, drill-through reports.
 
