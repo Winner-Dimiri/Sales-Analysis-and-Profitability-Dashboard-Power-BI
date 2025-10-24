@@ -1,7 +1,20 @@
 # Sales-Analysis-and-Profitability-Dashboard
-
-
 ---
+
+## Contents
+[Project Overview](#project-overview)
+
+[Data Source](#data-source)
+
+[Tools Used](#tools-used)
+
+[Data Cleaning and Preparation](#data-cleaning-and-preparation)
+
+[Visualization](#visualization)
+
+[Insights](#insights)
+
+[Recommendations](#recommendations)
 
 ## Project Overview
 - **Project Title:** Sales Analysis and Profitability Dashboard
@@ -9,6 +22,7 @@
   1. Where is revenue coming from?
   2. Why are margins negative?
   3. What practical steps will improve profitability?
+
 Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
 - **Business Objectives**
   1. Identify top-performing products, regions, and sales representatives.
@@ -16,13 +30,14 @@ Using SQL, Excel, and Power BI, I built a report that uncovers key findings, the
   3. Detect underperforming products and regions for strategic improvement.
   4. Provide real-time, interactive reporting for better decision-making.
 
+## Data Source 
+Kaggle - CSV sales dataset by Vinoth Kanna S.
+
 ## Tools Used
 - **Excel:** for data cleaning and formatting.
 - **SQL:** Data querying and exploration.
 - **Power BI:** DAX measures, interactive dashboards and data visualization, drill-through reports.
 
-## Data Source 
-Kaggle - CSV sales dataset by Vinoth Kanna S.
 
 ## Data Cleaning and Preparation
   - Loaded the dataset and inspected its structure for nulls, duplicates, data type, outliers, and inconsistencies. I discovered the dataset is for the 2023 sales year but had three entries for 2024. I removed the three 2024 entries from the dataset to give a more accurate analysis result for the 2023 sales year. [See the SQL query here](https://github.com/Winner-Dimiri/Sales-Analysis-and-Profitability-Dashboard-Power-BI/blob/main/Analysis.sql#L1-L2)
