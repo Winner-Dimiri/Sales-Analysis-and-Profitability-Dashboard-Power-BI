@@ -9,7 +9,7 @@
   1. Where is revenue coming from?
   2. Why are margins negative?
   3. What practical steps will improve profitability?
-  Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
+Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
 - **Business Objectives**
   1. Identify top-performing products, regions, and sales representatives.
   2. Evaluate revenue, profit margin, and Average Order Value (AOV) trends.
