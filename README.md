@@ -5,7 +5,11 @@
 
 ## Project Overview
 - **Project Title:** Sales Analysis and Profitability Dashboard
-- **Project Description:** I analyzed a year of retail transactions to answer the business questions: where is revenue coming from, why are margins negative, and what practical steps will improve profitability? Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
+- **Project Description:** I analyzed a year of retail transactions to answer the business questions:
+  1. Where is revenue coming from?
+  2. Why are margins negative?
+  3. What practical steps will improve profitability?
+  Using SQL, Excel, and Power BI, I built a report that uncovers key findings, then translated those findings into actionable recommendations.
 - **Business Objectives**
   1. Identify top-performing products, regions, and sales representatives.
   2. Evaluate revenue, profit margin, and Average Order Value (AOV) trends.
